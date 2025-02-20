@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoreboard</title>
+    <style>
+        body {
+            font-family: "Lucida Console", "Courier New", monospace;
+            background: linear-gradient(135deg, #676c75, #0d419c);
+            color: rgb(237, 24, 38);
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .scoreboard {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+        }
+        .team {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .timer {
+            font-size: 30px;
+            margin-top: 20px;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Scoreboard</h1>
+    <div class="scoreboard">
+        <div>
+            <div class="team">Team A</div>
+            <div class="score" id="scoreA">0</div>
+            <button onclick="incrementScore('scoreA')">Increase Team A</button>
+        </div>
+        <div>
+            <div class="team">Team B</div>
+            <div class="score" id="scoreB">0</div>
+            <button onclick="incrementScore('scoreB')">Increase Team B</button>
+        </div>
+    </div>
+    <div class="timer" id="timer">Time Left: 10:00</div>
+    
+    <script>
+        function incrementScore(team) {
+            let scoreElement = document.getElementById(team);
+            let score = parseInt(scoreElement.innerText);
+            scoreElement.innerText = score + 1;
+        }
+
+        function startTimer(duration) {
+            let timerElement = document.getElementById("timer");
+            let time = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = Math.floor(time / 60);
+                seconds = time % 60;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                timerElement.innerText = "Time Left: " + minutes + ":" + seconds;
+                if (time > 0) {
+                    time--;
+                }
+            }, 1000);
+            
+        }function resetGame() {
+            document.getElementById("scoreA").innerText = "0";
+            document.getElementById("scoreB").innerText = "0";
+            clearInterval(timer);
+            startTimer(600); // Restart a 10-minute timer
+        }
+
+        window.onload = function () {
+            startTimer(600); // Start a 10-minute timer
+        };
+    </script>
+</body>
+</html>
