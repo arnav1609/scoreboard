@@ -64,13 +64,31 @@
         </div>
     </div>
     <div class="timer" id="timer">Time Left: 10:00</div>
+    <button onclick="resetGame()">Reset Game</button>
+    <div id="winnerMessage" class="winner-message"></div>
     
     <script>
+         let timer;
+         let scoreLimit = 10;
+        let audio = new Audio('https://www.fesliyanstudios.com/play-mp3/4389');
         function incrementScore(team) {
             let scoreElement = document.getElementById(team);
             let score = parseInt(scoreElement.innerText);
             scoreElement.innerText = score + 1;
+            audio.play();
+            setTimeout(() => { audio.pause(); audio.currentTime = 0; }, 1000);
+            if (score + 1 === scoreLimit) {
+                document.body.classList.add('celebrate');
+                document.getElementById('winImage').style.display = 'block';
+                document.getElementById('winnerMessage').innerText = `${team === 'scoreA' ? 'Team A' : 'Team B'} Wins! 🎉`;
+                document.getElementById('winnerMessage').style.display = 'block';
+                setTimeout(() => {
+                    document.body.classList.remove('celebrate');
+                    document.getElementById('winImage').style.display = 'none';
+                }, 3000);
+            }
         }
+        
 
         function startTimer(duration) {
             let timerElement = document.getElementById("timer");
@@ -85,11 +103,14 @@
                 }
             }, 1000);
             
-        }function resetGame() {
+        } function resetGame() {
             document.getElementById("scoreA").innerText = "0";
             document.getElementById("scoreB").innerText = "0";
+            document.getElementById("winnerMessage").style.display = 'none';
             clearInterval(timer);
-            startTimer(600); 
+            document.getElementById("timer").classList.remove('warning');
+            document.getElementById('winImage').style.display = 'none';
+            startTimer(600);
         }
 
         window.onload = function () {
