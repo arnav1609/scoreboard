@@ -78,14 +78,12 @@
             audio.play();
             setTimeout(() => { audio.pause(); audio.currentTime = 0; }, 1000);
             if (score + 1 === scoreLimit) {
-                document.body.classList.add('celebrate');
-                document.getElementById('winImage').style.display = 'block';
-                document.getElementById('winnerMessage').innerText = `${team === 'scoreA' ? 'Team A' : 'Team B'} Wins! 🎉`;
+                let winnerText = `${team === 'scoreA' ? 'Team A' : 'Team B'} Wins! 🎉`;
+               document.getElementById('winnerMessage').innerText = winnerText;
                 document.getElementById('winnerMessage').style.display = 'block';
-                setTimeout(() => {
-                    document.body.classList.remove('celebrate');
-                    document.getElementById('winImage').style.display = 'none';
-                }, 3000);
+                document.getElementById("btnA").disabled = true;
+                document.getElementById("btnB").disabled = true;
+                clearInterval(timer); // Stop the timer when a team wins
             }
         }
         
